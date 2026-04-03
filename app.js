@@ -5,6 +5,82 @@
 (function () {
   'use strict';
 
+  /* ---- GYM HOURS & LIVE STATUS (IST) ---- */
+  // Hours in [openH, openM, closeH, closeM] per day (0=Sun..6=Sat)
+  var GYM_HOURS = {
+    0: [7,  0, 11, 0],   // Sunday  7:00 AM – 11:00 AM
+    1: [5, 30, 22, 0],   // Monday  5:30 AM – 10:00 PM
+    2: [5, 30, 22, 0],   // Tuesday
+    3: [5, 30, 22, 0],   // Wednesday
+    4: [5, 30, 22, 0],   // Thursday
+    5: [5, 30, 22, 0],   // Friday
+    6: [5, 30, 22, 0]    // Saturday
+  };
+  var DAY_LABELS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  function fmtTime(h, m) {
+    var period = h >= 12 ? 'PM' : 'AM';
+    var h12 = h % 12 || 12;
+    return h12 + (m ? ':' + String(m).padStart(2,'0') : '') + ' ' + period;
+  }
+
+  function getISTNow() {
+    // IST = UTC+5:30
+    var now = new Date();
+    var utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    return new Date(utc + 5.5 * 3600000);
+  }
+
+  function updateGymStatus() {
+    var ist = getISTNow();
+    var day = ist.getDay();
+    var h = ist.getHours(), m = ist.getMinutes();
+    var todayMins = h * 60 + m;
+    var hours = GYM_HOURS[day];
+    var openMins  = hours[0] * 60 + hours[1];
+    var closeMins = hours[2] * 60 + hours[3];
+    var isOpen = todayMins >= openMins && todayMins < closeMins;
+
+    // --- Hero badge ---
+    var dot  = document.getElementById('gymStatusDot');
+    var text = document.getElementById('gymStatusText');
+    if (dot && text) {
+      if (isOpen) {
+        dot.className  = 'status-dot open';
+        text.textContent = 'Open Now · Closes ' + fmtTime(hours[2], hours[3]);
+        text.style.color = '#2ecc71';
+      } else {
+        dot.className  = 'status-dot closed';
+        // Find next open day
+        var nextDay = (day + 1) % 7;
+        var nextH = GYM_HOURS[nextDay];
+        text.textContent = 'Closed · Opens ' + DAY_LABELS[nextDay] + ' ' + fmtTime(nextH[0], nextH[1]);
+        text.style.color = '#e53e3e';
+      }
+    }
+
+    // --- Hero stats ---
+    var openEl  = document.getElementById('heroOpenTime');
+    var closeEl = document.getElementById('heroCloseTime');
+    if (openEl)  openEl.textContent  = fmtTime(hours[0], hours[1]);
+    if (closeEl) closeEl.textContent = fmtTime(hours[2], hours[3]);
+
+    // --- Contact section ---
+    var cs = document.getElementById('contactStatus');
+    if (cs) {
+      if (isOpen) {
+        cs.textContent   = '● Open Now';
+        cs.className     = 'status-inline open';
+      } else {
+        cs.textContent   = '● Closed Now';
+        cs.className     = 'status-inline closed';
+      }
+    }
+  }
+
+  updateGymStatus();
+  setInterval(updateGymStatus, 60000); // refresh every minute
+
   /* ---- NAVBAR SCROLL ---- */
   const navbar = document.getElementById('navbar');
   const hamburger = document.getElementById('hamburger');
