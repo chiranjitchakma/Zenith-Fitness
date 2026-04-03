@@ -8,6 +8,12 @@
   <meta property="og:title" content="Zenith Fitness – Premium Gym in Mysuru" />
   <meta property="og:description" content="Top-rated gym in Vijay Nagar, Mysuru. Clean facility, expert trainers, proven transformations. Open 5:30 AM – 10 PM." />
   <meta property="og:type" content="website" />
+  <!-- SECURITY HEADERS -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://raw.githubusercontent.com https://github.com https://lh3.googleusercontent.com; frame-src https://www.google.com; connect-src 'none';" />
   <title>Zenith Fitness | Premium Gym in Mysuru, Vijay Nagar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,8 +25,9 @@
   <!-- NAV -->
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
-      <a href="#hero" class="logo">
-        <span class="logo-z">Z</span><span class="logo-text">ENITH</span><span class="logo-fitness">FITNESS</span>
+      <a href="#hero" class="logo logo-img-wrap">
+        <img src="https://raw.githubusercontent.com/chiranjitchakma/Zenith-Fitness/main/zenith_fitness_gym%20%20%20%20logo.png" alt="Zenith Fitness Logo" class="nav-logo-img" loading="eager" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <span class="logo-fallback" style="display:none;"><span class="logo-z">Z</span><span class="logo-text">ENITH</span><span class="logo-fitness">FITNESS</span></span>
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#about">About</a></li>
@@ -44,7 +51,11 @@
       <div class="hero-overlay"></div>
     </div>
     <div class="hero-content">
-      <div class="hero-badge">⭐ 4.7 · 226 Reviews · Mysuru's Top Gym</div>
+      <div class="hero-badge">
+        <span id="gymStatusDot" class="status-dot"></span>
+        <span id="gymStatusText">Checking hours…</span>
+        &nbsp;·&nbsp; ⭐ 4.7 · 226 Reviews · Mysuru's Top Gym
+      </div>
       <h1 class="hero-title">
         <span class="line1">REACH YOUR</span>
         <span class="line2">ZENITH.</span>
@@ -58,9 +69,9 @@
         </a>
       </div>
       <div class="hero-stats">
-        <div class="stat"><strong>5:30 AM</strong><span>Opens Daily</span></div>
+        <div class="stat"><strong id="heroOpenTime">5:30 AM</strong><span>Opens Daily</span></div>
         <div class="stat-divider"></div>
-        <div class="stat"><strong>10 PM</strong><span>Closes Daily</span></div>
+        <div class="stat"><strong id="heroCloseTime">10 PM</strong><span>Closes Daily</span></div>
         <div class="stat-divider"></div>
         <div class="stat"><strong>4.7★</strong><span>226 Reviews</span></div>
         <div class="stat-divider"></div>
@@ -346,8 +357,9 @@
             <div class="cd-item">
               <span class="cd-icon">🕐</span>
               <div>
-                <strong>Hours</strong>
-                <p>Monday – Sunday<br>5:30 AM – 10:00 PM</p>
+                <strong>Hours &nbsp;<span id="contactStatus" class="status-inline"></span></strong>
+                <p>Mon – Sat: 5:30 AM – 10:00 PM</p>
+                <p>Sunday: 7:00 AM – 11:00 AM</p>
               </div>
             </div>
           </div>
@@ -418,8 +430,9 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="#hero" class="logo">
-            <span class="logo-z">Z</span><span class="logo-text">ENITH</span><span class="logo-fitness">FITNESS</span>
+          <a href="#hero" class="logo logo-img-wrap">
+            <img src="https://raw.githubusercontent.com/chiranjitchakma/Zenith-Fitness/main/zenith_fitness_gym%20%20%20%20logo.png" alt="Zenith Fitness Logo" class="nav-logo-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+            <span class="logo-fallback" style="display:none;"><span class="logo-z">Z</span><span class="logo-text">ENITH</span><span class="logo-fitness">FITNESS</span></span>
           </a>
           <p>Mysuru's most trusted gym. Transforming lives at Vijay Nagar since day one.</p>
           <div class="footer-rating">⭐ 4.7 / 5 &nbsp;·&nbsp; 226 Reviews</div>
@@ -439,7 +452,13 @@
           <h4>Contact</h4>
           <p>📍 #4576, Surya Complex, R K Corner Circle, Vijay Nagar 2nd Stage, Mysuru – 570017</p>
           <p>📞 <a href="tel:+919986888633">099868 88633</a></p>
-          <p>🕐 5:30 AM – 10:00 PM, Daily</p>
+          <p>🕐 Mon–Sat: 5:30 AM – 10 PM &nbsp;|&nbsp; Sun: 7–11 AM</p>
+          <p>
+            <a href="https://www.instagram.com/zenith_fitness_gym/" target="_blank" rel="noopener noreferrer" class="insta-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:5px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              @zenith_fitness_gym
+            </a>
+          </p>
         </div>
         <div class="footer-cta">
           <h4>Start Today</h4>
